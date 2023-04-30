@@ -1,6 +1,23 @@
-import { Image, StyleSheet, Text, TextInput, View, Button } from "react-native";
+import { useEffect } from "react";
+import {
+  Image,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  Button,
+  BackHandler,
+} from "react-native";
 
-const Login = () => {
+const Login = ({ navigation }) => {
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      () => true
+    );
+    return () => backHandler.remove();
+  }, []);
+
   return (
     <View>
       <View style={styles.header}>
@@ -35,7 +52,17 @@ const Login = () => {
           />
         </View>
         <View style={styles.btn_login}>
-          <Button title="Login" color="#fff" />
+          <Button
+            title="Login"
+            color="#fff"
+            onPress={() => {
+              navigation.navigate("Dashboard");
+              navigation.reset({
+                index: 0,
+                routes: [{ name: "Dashboard" }],
+              });
+            }}
+          />
         </View>
       </View>
     </View>

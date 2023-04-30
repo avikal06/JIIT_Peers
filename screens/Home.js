@@ -1,58 +1,36 @@
-// import { Button, StyleSheet, Text, View, ImageBackground } from "react-native";
-// import React from "react";
-// import { SafeAreaView } from "react-native-safe-area-context";
-// import Spacing from "../constants/Spacing";
-// import FontSize from "../constants/FontSize";
-// import Spacing from "../constants/Spacing";
-// const { height } = Dimensions.get("window");
-// const Home = ({ navigation }) => {
-//   return (
-//     <SafeAreaView>
-//       <View style={styles.container}>
-//         <ImageBackground
-//           style={{
-//             height: height / 4,
-//           }}
-//           resizeMode="contain"
-//           source={require("../assets/images/jiit.png")}
-//         />
-//         {/* <StatusBar style="auto" /> */}
-//         <View
-//           style={{
-//             paddingHorizontal: Spacing * 4,
-//             paddingTop: Spacing * 4,
-//           }}
-//         >
-//           <Text
-//             style={{
-//               fontSize,
-//             }}
-//           ></Text>
-//           <Button
-//             title="Login"
-//             onPress={() => {
-//               navigation.navigate("Login");
-//             }}
-//           />
-//           <Button
-//             title="Login"
-//             onPress={() => {
-//               navigation.navigate("Login");
-//             }}
-//           />
-//         </View>
-//       </View>
-//     </SafeAreaView>
-//   );
-// };
+import { useEffect } from "react";
+import { Button, StyleSheet, Text, View, Image } from "react-native";
 
-// export default Home;
+const Home = ({ navigation }) => {
+  useEffect(() => {
+    const Nav = () => {
+      navigation.navigate("Login");
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "Login" }],
+      });
+    };
+    setTimeout(Nav, 2000);
+  }, []);
+  return (
+    <View style={styles.container}>
+      <Image source={require("../assets/jiit.png")} style={styles.img_logo} />
+    </View>
+  );
+};
 
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: "#fff",
-//     alignItems: "center",
-//     justifyContent: "center",
-//   },
-// });
+export default Home;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  img_logo: {
+    width: 160,
+    height: 160,
+    resizeMode: "contain",
+  },
+});
