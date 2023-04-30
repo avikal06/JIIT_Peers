@@ -7,7 +7,7 @@ import { AntDesign } from "@expo/vector-icons";
 
 const Default = () => {
   return (
-    <View>
+    <View style={{ padding: 30 }}>
       <Text style={styles.heading}>Dashboard</Text>
       <View
         style={{

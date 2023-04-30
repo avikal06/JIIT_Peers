@@ -1,4 +1,12 @@
-import { Button, StyleSheet, Text, View, Image, Pressable } from "react-native";
+import {
+  Button,
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  Pressable,
+  Dimensions,
+} from "react-native";
 import { Entypo } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -23,6 +31,7 @@ const Dashboard = ({ navigation }) => {
             marginRight: "auto",
             fontSize: 18,
             marginTop: 10,
+            marginBottom: 50,
           }}
         >
           Username
@@ -74,11 +83,13 @@ const Dashboard = ({ navigation }) => {
 
 export default Dashboard;
 
+const ht = Dimensions.get("window").height * 0.6 + 90;
+
 const styles = StyleSheet.create({
   header: {
     backgroundColor: "#000",
     width: "100%",
-    height: "30%",
+    height: "40%",
     justifyContent: "center",
     alignItems: "stretch",
   },
@@ -91,24 +102,23 @@ const styles = StyleSheet.create({
   },
   dashboard_container: {
     width: "100%",
-    height: "100%",
+    height: ht,
     backgroundColor: "#fff",
     borderTopLeftRadius: 60,
     borderTopRightRadius: 60,
-    marginTop: -60,
-    position: "relative",
+    marginTop: -90,
   },
   switch_container: {
     width: "100%",
     marginTop: 10,
-    padding: 30,
+    // padding: 30,
   },
   nav_container: {
     position: "absolute",
     alignItems: "center",
     width: "100%",
     left: 0,
-    bottom: 470,
+    bottom: 20,
   },
   navbar: {
     flexDirection: "row",
