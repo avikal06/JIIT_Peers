@@ -1,6 +1,20 @@
-import { Button, StyleSheet, Text, View, Image } from "react-native";
+import {
+  Button,
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  ScrollView,
+} from "react-native";
+import { Dropdown } from "react-native-element-dropdown";
 
 const Attendance = () => {
+  const data = [
+    { label: "SEM EVE 2023", value: "1" },
+    { label: "SEM ODD 2023", value: "2" },
+    { label: "SEM EVE 2022", value: "3" },
+    { label: "SEM ODD 2022", value: "4" },
+  ];
   return (
     <View>
       <Text style={styles.heading}>Attendance</Text>
