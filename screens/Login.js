@@ -28,7 +28,11 @@ const Login = () => {
         </View>
         <View style={styles.text_input_container}>
           <Text style={{ fontWeight: 600 }}>Password</Text>
-          <TextInput placeholder="********" style={styles.text_input} />
+          <TextInput
+            placeholder="********"
+            style={styles.text_input}
+            secureTextEntry={true}
+          />
         </View>
         <View style={styles.btn_login}>
           <Button title="Login" color="#fff" />
@@ -44,7 +48,7 @@ const styles = StyleSheet.create({
   header: {
     backgroundColor: "#000",
     width: "100%",
-    height: "40%",
+    height: "35%",
     justifyContent: "center",
     alignItems: "stretch",
   },
@@ -82,7 +86,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   btn_login: {
-    marginTop: 30,
+    marginTop: 50,
     width: "100%",
     backgroundColor: "#000",
     borderRadius: 10,
