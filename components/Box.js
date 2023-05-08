@@ -14,7 +14,7 @@ const Box = ({ color, icon, title }) => {
             height: 80,
             backgroundColor: "#fff",
             opacity: 0.4,
-            borderRadius: "50%",
+            borderRadius: 50,
             position: "absolute",
             bottom: -10,
             right: -20,

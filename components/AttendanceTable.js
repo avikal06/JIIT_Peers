@@ -7,7 +7,7 @@ import {
   ScrollView,
 } from "react-native";
 
-const AttendanceTable = () => {
+const AttendanceTable = ({ attendanceData }) => {
   const data = [
     {
       title: "Probability and Random Processes",
@@ -52,10 +52,9 @@ const AttendanceTable = () => {
       lt: "70%",
     },
   ];
-
   return (
     <ScrollView style={styles.scrollContainer}>
-      {data.map((d, i) => {
+      {attendanceData?.map((d, i) => {
         return (
           <View
             style={
@@ -63,24 +62,32 @@ const AttendanceTable = () => {
                 ? { ...styles.container, backgroundColor: "#eee" }
                 : { ...styles.container, backgroundColor: "#fff" }
             }
+            key={i}
           >
             <View>
-              <Text style={{ fontSize: 16, marginBottom: 3 }}>{d.title}</Text>
+              <Text style={{ fontSize: 16, marginBottom: 3, width: 250 }}>
+                {d.subjectcode}
+              </Text>
               <View
                 style={{
                   flexDirection: "row",
                 }}
               >
-                <Text>Lecture: {d.lec}</Text>
-                <Text style={{ marginLeft: 20 }}>Tutorial: {d.tut}</Text>
+                <Text>Lecture: {d.Lpercentage}</Text>
+                <Text style={{ marginLeft: 20 }}>
+                  Tutorial: {d.Tpercentage}
+                </Text>
               </View>
             </View>
             <Text
               style={{
-                fontSize: 35,
+                fontSize: 30,
               }}
             >
-              {d.lt}
+              {d.LTpercantage || d.Ppercentage
+                ? d.LTpercantage || d.Ppercentage
+                : d.Lpercentage}
+              %
             </Text>
           </View>
         );

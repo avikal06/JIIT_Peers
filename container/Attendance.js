@@ -8,18 +8,16 @@ import {
 } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 import AntDesign from "@expo/vector-icons/AntDesign";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import AttendanceTable from "../components/AttendanceTable";
+import { LoginContext } from "../contexts/LoginContext";
+import axios from "axios";
 
-const Attendance = () => {
-  const data = [
-    { label: "SEM EVE 2023", value: "1" },
-    { label: "SEM ODD 2023", value: "2" },
-    { label: "SEM EVE 2022", value: "3" },
-    { label: "SEM ODD 2022", value: "4" },
-  ];
+const Attendance = ({ semList, attendanceData }) => {
   const [value, setValue] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
+  const { userData } = useContext(LoginContext);
+  const [attendance, setAttendance] = useState();
 
   const renderLabel = () => {
     if (value || isFocus) {
@@ -32,6 +30,28 @@ const Attendance = () => {
     return null;
   };
 
+  const handleClick = (val) => {
+    axios({
+      method: "post",
+      url: "https://webportal.jiit.ac.in:6011/StudentPortalAPI/StudentClassAttendance/getstudentattendancedetail",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userData.token}`,
+      },
+      data: {
+        clientid: userData.clientid,
+        instituteid: userData.institutelist[0].value,
+        studentid: userData.memberid,
+        registrationid: val,
+        stynumber: attendanceData.response.headerlist[0].stynumber,
+      },
+    }).then((response) => {
+      setAttendance(response.data.response.studentattendancelist);
+    });
+  };
+
+  console.log("attendance", attendance);
+
   return (
     <View>
       <Text style={styles.heading}>Attendance</Text>
@@ -42,18 +62,19 @@ const Attendance = () => {
         selectedTextStyle={styles.selectedTextStyle}
         inputSearchStyle={styles.inputSearchStyle}
         iconStyle={styles.iconStyle}
-        data={data}
+        data={semList}
         search
         maxHeight={300}
-        labelField="label"
-        valueField="value"
+        labelField="registrationcode"
+        valueField="registrationid"
         placeholder={!isFocus ? "Select semester" : "..."}
         searchPlaceholder="Search..."
         value={value}
         onFocus={() => setIsFocus(true)}
         onBlur={() => setIsFocus(false)}
         onChange={(item) => {
-          setValue(item.value);
+          setValue(item.registrationid);
+          handleClick(item.registrationid);
           setIsFocus(false);
         }}
         renderLeftIcon={() => (
@@ -65,7 +86,21 @@ const Attendance = () => {
           />
         )}
       />
-      <AttendanceTable />
+      {value ? (
+        <AttendanceTable attendanceData={attendance} />
+      ) : (
+        <Text
+          style={{
+            fontSize: 18,
+            fontWeight: 500,
+            marginLeft: "auto",
+            marginRight: "auto",
+            marginTop: 100,
+          }}
+        >
+          Select a semester
+        </Text>
+      )}
     </View>
   );
 };

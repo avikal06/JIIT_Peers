@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState, useContext } from "react";
 import {
   Image,
   StyleSheet,
@@ -7,9 +7,16 @@ import {
   View,
   Button,
   BackHandler,
+  TouchableOpacity,
 } from "react-native";
+import axios from "axios";
+import { LoginContext } from "../contexts/LoginContext";
 
 const Login = ({ navigation }) => {
+  const [enrollment, setEnrollment] = useState("");
+  const [password, setPassword] = useState("");
+  const { userData, setUserData } = useContext(LoginContext);
+
   useEffect(() => {
     const backHandler = BackHandler.addEventListener(
       "hardwareBackPress",
@@ -17,6 +24,25 @@ const Login = ({ navigation }) => {
     );
     return () => backHandler.remove();
   }, []);
+
+  const login = () => {
+    axios({
+      method: "post",
+      url: "https://webportal.jiit.ac.in:6011/StudentPortalAPI/token/generate-token1",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: {
+        Modulename: "STUDENTMODULE",
+        otppwd: "PWD",
+        passwordotpvalue: password,
+        username: enrollment,
+      },
+    }).then((response) => {
+      setUserData(response.data.response.regdata);
+      navigation.navigate("Dashboard");
+    });
+  };
 
   return (
     <View>
@@ -41,7 +67,13 @@ const Login = ({ navigation }) => {
         </Text>
         <View style={styles.text_input_container}>
           <Text style={{ fontWeight: 600 }}>Enrollment No.</Text>
-          <TextInput placeholder="0123456" style={styles.text_input} />
+          <TextInput
+            placeholder="0123456"
+            style={styles.text_input}
+            onChangeText={(text) => {
+              setEnrollment(text);
+            }}
+          />
         </View>
         <View style={styles.text_input_container}>
           <Text style={{ fontWeight: 600 }}>Password</Text>
@@ -49,21 +81,19 @@ const Login = ({ navigation }) => {
             placeholder="********"
             style={styles.text_input}
             secureTextEntry={true}
-          />
-        </View>
-        <View style={styles.btn_login}>
-          <Button
-            title="Login"
-            color="#fff"
-            onPress={() => {
-              navigation.navigate("Dashboard");
-              navigation.reset({
-                index: 0,
-                routes: [{ name: "Dashboard" }],
-              });
+            onChangeText={(text) => {
+              setPassword(text);
             }}
           />
         </View>
+        <TouchableOpacity
+          style={styles.btn_login2}
+          onPress={() => {
+            login();
+          }}
+        >
+          <Text style={{ color: "#fff", fontSize: 18 }}>Login</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -118,5 +148,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#000",
     borderRadius: 10,
     padding: 5,
+  },
+  btn_login2: {
+    marginTop: 50,
+    width: "100%",
+    backgroundColor: "#000",
+    borderRadius: 10,
+    padding: 15,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
